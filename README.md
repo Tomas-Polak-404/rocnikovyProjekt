@@ -1,2 +1,1 @@
-# rocnikovyProjekt2
- test
+# rocnikovyProjekt
