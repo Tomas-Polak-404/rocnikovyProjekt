@@ -11,11 +11,16 @@ public class PlayerMovement : MonoBehaviour
     private bool isFacingRight = true;
     private bool isJumping = false;
     private bool isGrounded = false;
+    private bool isCrouching = false;
+    private bool isUnderObstacle = false;
 
     // Rigidbody2D komponenta hr��e, groundCheck transform a vrstva zem�
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
+
+    [SerializeField] private BoxCollider2D boxCollider;
+    [SerializeField] private CircleCollider2D circleCollider;
 
     // Parametry pohybu
     [Header("Movement Parameters")]
@@ -25,6 +30,10 @@ public class PlayerMovement : MonoBehaviour
     [Header("Jump Parameters")]
     [SerializeField] private float jumpForce = 8f; // Skokov� s�la
     [SerializeField] private float gravity = 1f;   // Gravitace
+
+    [SerializeField] public float crouchSpeed = 2f;
+
+
 
     private void Update()
     {
@@ -58,6 +67,9 @@ public class PlayerMovement : MonoBehaviour
     // Metoda volan� v ka�d�m fixed framu pro zpracov�n� pohybu, skoku a gravitace
     private void FixedUpdate()
     {
+        CheckUnderObstacle();
+
+        HandleCrouchInput();
         // Zpracov�n� horizont�ln�ho pohybu
         HandleMovement();
 
@@ -66,13 +78,51 @@ public class PlayerMovement : MonoBehaviour
 
         // Zpracov�n� gravitace
         HandleGravity();
+
     }
 
     // Metoda pro ��zen� horizont�ln�ho pohybu hr��e
     private void HandleMovement()
     {
-        // Nastaven� rychlosti hr��e na z�klad� horizont�ln�ho vstupu
-        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+        // Pokud je pod překážkou nebo v pozici crouch, používej crouchSpeed, jinak používej normální speed
+        float currentSpeed = isUnderObstacle || isCrouching ? crouchSpeed : speed;
+        rb.velocity = new Vector2(Input.GetAxis("Horizontal") * currentSpeed, rb.velocity.y);
+    }
+    private void HandleCrouchInput()
+    {
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            if (!isCrouching)
+            {
+                // Přepni do crouch stavu a deaktivuj box collider u nohou
+                isCrouching = true;
+                boxCollider.enabled = true;
+                circleCollider.enabled = false; // Možná chceš aktivovat circle collider, pokud má být používán
+            }
+        }
+        else
+        {
+            if (isCrouching)
+            {
+                // Opuštění crouch stavu, aktivuj box collider u nohou
+                isCrouching = false;
+                boxCollider.enabled = true;
+                circleCollider.enabled = true; // Aktivuj circle collider, pokud je to tvoje požadované chování
+            }
+        }
+    }
+    private void CheckUnderObstacle() //TODO: nefunguje 
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 0.1f);
+
+        if (hit.collider != null && hit.collider.tag == "Obstacle")
+        {
+            isUnderObstacle = true;
+        }
+        else
+        {
+            isUnderObstacle = false;
+        }
     }
 
     // Metoda pro zpracov�n� skoku hr��e
