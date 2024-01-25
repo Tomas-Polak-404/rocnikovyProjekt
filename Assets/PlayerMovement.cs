@@ -14,13 +14,15 @@ public class PlayerMovement : MonoBehaviour
     private bool isCrouching = false;
     private bool isUnderObstacle = false;
 
+
     // Rigidbody2D komponenta hr��e, groundCheck transform a vrstva zem�
     [SerializeField] private Rigidbody2D rb;
+    private Animator anim;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
 
     [SerializeField] private BoxCollider2D boxCollider;
-    [SerializeField] private CircleCollider2D circleCollider;
+    [SerializeField] private CapsuleCollider2D capsuleCollider;
 
     // Parametry pohybu
     [Header("Movement Parameters")]
@@ -28,11 +30,16 @@ public class PlayerMovement : MonoBehaviour
 
     // Parametry skoku
     [Header("Jump Parameters")]
-    [SerializeField] private float jumpForce = 8f; // Skokov� s�la
+    [SerializeField] private float jumpForce = 8f; 
     [SerializeField] private float gravity = 1f;   // Gravitace
 
     [SerializeField] public float crouchSpeed = 2f;
 
+
+    void Start()
+    {
+        anim = GetComponent<Animator>();
+    }
 
 
     private void Update()
@@ -81,13 +88,28 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    // Metoda pro ��zen� horizont�ln�ho pohybu hr��e
+    float playerScale = 6f;  // Změňte na aktuální hodnotu škálování hráče TODO: nefunguje, animace se zvětšuje
+
     private void HandleMovement()
     {
+        float horizontalInput = Input.GetAxis("Horizontal");
+        bool isPlayerMoving = Mathf.Abs(horizontalInput) > 0.1f;
+
         // Pokud je pod překážkou nebo v pozici crouch, používej crouchSpeed, jinak používej normální speed
         float currentSpeed = isUnderObstacle || isCrouching ? crouchSpeed : speed;
-        rb.velocity = new Vector2(Input.GetAxis("Horizontal") * currentSpeed, rb.velocity.y);
+        rb.velocity = new Vector2(horizontalInput * currentSpeed, rb.velocity.y);
+
+        // Nastavuje Animator parametr "isRunning" podle toho, zda se hráč pohybuje
+        anim.SetBool("IsRunning", isPlayerMoving);
+
+        // Přizpůsobení škálování animace v závislosti na škálování hráče
+        float animationScale = 1f / playerScale;
+        anim.SetFloat("AnimationScale", animationScale);
     }
+
+
+
+
     private void HandleCrouchInput()
     {
         if (Input.GetKey(KeyCode.LeftControl))
@@ -97,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
                 // Přepni do crouch stavu a deaktivuj box collider u nohou
                 isCrouching = true;
                 boxCollider.enabled = true;
-                circleCollider.enabled = false; // Možná chceš aktivovat circle collider, pokud má být používán
+                capsuleCollider.enabled = false; // Možná chceš aktivovat circle collider, pokud má být používán
             }
         }
         else
@@ -107,7 +129,7 @@ public class PlayerMovement : MonoBehaviour
                 // Opuštění crouch stavu, aktivuj box collider u nohou
                 isCrouching = false;
                 boxCollider.enabled = true;
-                circleCollider.enabled = true; // Aktivuj circle collider, pokud je to tvoje požadované chování
+                capsuleCollider.enabled = true; // Aktivuj circle collider, pokud je to tvoje požadované chování
             }
         }
     }
