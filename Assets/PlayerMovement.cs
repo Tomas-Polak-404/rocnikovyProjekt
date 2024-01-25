@@ -88,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    float playerScale = 6f;  // Změňte na aktuální hodnotu škálování hráče TODO: nefunguje, animace se zvětšuje
+    //float playerScale = 6f;  // Změňte na aktuální hodnotu škálování hráče TODO: nefunguje, animace se zvětšuje
 
     private void HandleMovement()
     {
@@ -102,10 +102,10 @@ public class PlayerMovement : MonoBehaviour
         // Nastavuje Animator parametr "isRunning" podle toho, zda se hráč pohybuje
         anim.SetBool("IsRunning", isPlayerMoving);
 
-        // Přizpůsobení škálování animace v závislosti na škálování hráče
-        float animationScale = 1f / playerScale;
-        anim.SetFloat("AnimationScale", animationScale);
+        anim.SetFloat("AnimationScale", 1f / 6f);
     }
+
+
 
 
 
@@ -224,6 +224,3 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 }
-
-
-
