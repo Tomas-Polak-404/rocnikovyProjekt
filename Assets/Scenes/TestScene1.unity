@@ -216,7 +216,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 4.5
+  orthographic size: 4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -359,7 +359,7 @@ Transform:
   m_GameObject: {fileID: 989291133}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.06, y: 5.53, z: 0}
+  m_LocalPosition: {x: -18.49, y: -1.75, z: 0}
   m_LocalScale: {x: 5.9528613, y: 7.0296025, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -464,9 +464,9 @@ GameObject:
   - component: {fileID: 1597619928}
   - component: {fileID: 1597619927}
   - component: {fileID: 1597619929}
+  - component: {fileID: 1597619933}
   - component: {fileID: 1597619931}
   - component: {fileID: 1597619932}
-  - component: {fileID: 1597619933}
   - component: {fileID: 1597619934}
   - component: {fileID: 1597619935}
   m_Layer: 6
@@ -537,7 +537,7 @@ Transform:
   m_GameObject: {fileID: 1597619923}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -24.724, y: 6.63, z: 0}
+  m_LocalPosition: {x: -41.19, y: -11.03, z: 0}
   m_LocalScale: {x: 6, y: 6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -564,7 +564,7 @@ MonoBehaviour:
   boxCollider: {fileID: 1597619931}
   capsuleCollider: {fileID: 1597619934}
   speed: 7
-  jumpForce: 8
+  jumpForce: 9
   gravity: 1
   crouchSpeed: 2
 --- !u!61 &1597619931
@@ -832,7 +832,7 @@ MonoBehaviour:
   m_Follow: {fileID: 1597619928}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 4.5
+    OrthographicSize: 4
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -858,7 +858,7 @@ Transform:
   m_GameObject: {fileID: 1922465516}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -24.724, y: 6.63, z: -10}
+  m_LocalPosition: {x: -41.19, y: -11.03, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
