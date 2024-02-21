@@ -53,9 +53,13 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             isJumping = true;
+            // Aktivovat Trigger pro skok
+            anim.SetTrigger("JumpTrigger");
         }
         // Otočení hráče podle směru pohybu
         Flip();
+
+        anim.SetBool("isJumping", !isGrounded);
 
         /*
         if (isGrounded)
@@ -67,13 +71,16 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Jsem ve vzduchu");
         }
         */
-    // Metoda volan� v ka�d�m framu pro z�sk�n� vstupu od hr��e
+        // Metoda volan� v ka�d�m framu pro z�sk�n� vstupu od hr��e
         // Povol skok pouze pokud je hráč na zemi a hráč stiskne skokové tlačítko
     }
+    
 
     // Metoda volan� v ka�d�m fixed framu pro zpracov�n� pohybu, skoku a gravitace
     private void FixedUpdate()
     {
+
+        anim.SetFloat("yVelocity", rb.velocity.y);
         CheckUnderObstacle();
 
         HandleCrouchInput();
@@ -88,7 +95,6 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    //float playerScale = 6f;  // Změňte na aktuální hodnotu škálování hráče TODO: nefunguje, animace se zvětšuje
 
     private void HandleMovement()
     {
@@ -154,6 +160,7 @@ public class PlayerMovement : MonoBehaviour
         if (isJumping)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            
             isJumping = false;
         }
     }
@@ -173,6 +180,7 @@ public class PlayerMovement : MonoBehaviour
         return hit.collider != null;
         */
 
+        anim.SetBool("isJumping", !isGrounded);
         
         // Vytvo�en� raycastu sm��uj�c�ho dol�
         RaycastHit2D hit = Physics2D.Raycast(groundCheck.position, Vector2.down, 0.2f, groundLayer);
