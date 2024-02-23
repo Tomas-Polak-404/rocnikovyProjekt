@@ -563,7 +563,7 @@ MonoBehaviour:
     m_Bits: 8
   boxCollider: {fileID: 1597619931}
   capsuleCollider: {fileID: 1597619934}
-  speed: 5
+  speed: 7.68
   jumpForce: 9.5
   gravity: 1
   crouchSpeed: 2
