@@ -26,7 +26,9 @@ public class PlayerMovement : MonoBehaviour
 
     // Parametry pohybu
     [Header("Movement Parameters")]
-    [SerializeField] private float speed = 7f;
+    [SerializeField] private float speed = 5f;
+    private float baseSpeed;
+    [SerializeField] private float runningSpeed = 7f;
 
     // Parametry skoku
     [Header("Jump Parameters")]
@@ -39,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
+        baseSpeed = speed;
     }
 
 
@@ -105,8 +108,17 @@ public class PlayerMovement : MonoBehaviour
         float currentSpeed = isUnderObstacle || isCrouching ? crouchSpeed : speed;
         rb.velocity = new Vector2(horizontalInput * currentSpeed, rb.velocity.y);
 
-        // Nastavuje Animator parametr "isRunning" podle toho, zda se hráč pohybuje
-        anim.SetBool("IsRunning", isPlayerMoving);
+        // Nastavuje Animator parametr "isMoving" podle toho, zda se hráč pohybuje
+        anim.SetBool("isMoving", isPlayerMoving);
+
+        bool isPlayerRunning = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+        anim.SetBool("isRunning", isPlayerRunning);
+        if(isPlayerRunning) {
+            speed = runningSpeed;
+        }
+        else {
+            speed = baseSpeed;
+        }
 
         anim.SetFloat("AnimationScale", 1f / 6f);
     }
