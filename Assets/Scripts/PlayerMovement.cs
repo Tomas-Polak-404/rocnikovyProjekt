@@ -1,13 +1,23 @@
-// Importov�n� nezbytn�ch knihoven a t��d pro pr�ci v Unity
+/*
+--------------------------Ročníková práce - Tomáš Polák---------------------
+
+
+TODO: crouch animace, foreground, enemies, UI, lights, levels, žebřík,...
+    
+TODO: celkově upravit kód
+
+
+
+*/
+
+
+
+
 using UnityEngine;
 
-// Definice t��dy pro ��zen� pohybu hr��e
 public class PlayerMovement : MonoBehaviour
 {
-    // Prom�nn� pro ulo�en� hodnoty vstupu z kl�vesnice pro horizont�ln� pohyb
     private float horizontal;
-
-    // Booleovsk� prom�nn� pro sledov�n� sm�ru, sk�k�n� a pozemku
     private bool isFacingRight = true;
     private bool isJumping = false;
     private bool isGrounded = false;
@@ -15,7 +25,6 @@ public class PlayerMovement : MonoBehaviour
     private bool isUnderObstacle = false;
 
 
-    // Rigidbody2D komponenta hr��e, groundCheck transform a vrstva zem�
     [SerializeField] private Rigidbody2D rb;
     private Animator anim;
     [SerializeField] private Transform groundCheck;
@@ -33,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
     // Parametry skoku
     [Header("Jump Parameters")]
     [SerializeField] private float jumpForce = 8f; 
-    [SerializeField] private float gravity = 1f;   // Gravitace
+    [SerializeField] private float gravity = 1f;
 
     [SerializeField] public float crouchSpeed = 2f;
 
@@ -87,13 +96,10 @@ public class PlayerMovement : MonoBehaviour
         CheckUnderObstacle();
 
         HandleCrouchInput();
-        // Zpracov�n� horizont�ln�ho pohybu
         HandleMovement();
 
-        // Zpracov�n� skoku
         HandleJump();
 
-        // Zpracov�n� gravitace
         HandleGravity();
 
     }
@@ -120,7 +126,6 @@ public class PlayerMovement : MonoBehaviour
             speed = baseSpeed;
         }
 
-        anim.SetFloat("AnimationScale", 1f / 6f);
     }
 
 
