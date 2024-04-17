@@ -2,7 +2,7 @@
 --------------------------Ročníková práce - Tomáš Polák---------------------
 
 
-TODO: crouch animace, foreground, enemies, UI, lights, levels, žebřík,...
+TODO: foreground, enemies, UI, lights, levels, žebřík,...
     
 TODO: celkově upravit kód
 
@@ -115,7 +115,7 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = new Vector2(horizontalInput * currentSpeed, rb.velocity.y);
 
         // Nastavuje Animator parametr "isMoving" podle toho, zda se hráč pohybuje
-        anim.SetBool("isMoving", isPlayerMoving);
+        anim.SetBool("isWalking", isPlayerMoving);
 
         bool isPlayerRunning = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
         anim.SetBool("isRunning", isPlayerRunning);
@@ -141,6 +141,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 // Přepni do crouch stavu a deaktivuj box collider u nohou
                 isCrouching = true;
+                anim.SetBool("isCrouching", true);
                 boxCollider.enabled = true;
                 capsuleCollider.enabled = false; // Možná chceš aktivovat circle collider, pokud má být používán
             }
@@ -151,6 +152,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 // Opuštění crouch stavu, aktivuj box collider u nohou
                 isCrouching = false;
+                anim.SetBool("isCrouching", false);
                 boxCollider.enabled = true;
                 capsuleCollider.enabled = true; // Aktivuj circle collider, pokud je to tvoje požadované chování
             }
