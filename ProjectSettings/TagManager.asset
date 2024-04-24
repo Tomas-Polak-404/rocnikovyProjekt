@@ -7,6 +7,8 @@ TagManager:
   - Undefined
   - groundLayer
   - Obstacle
+  - Goblin
+  - GameOverText
   layers:
   - Default
   - TransparentFX
