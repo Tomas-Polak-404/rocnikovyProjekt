@@ -14,7 +14,7 @@ public class EnemyPatrol : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         target = pointA.transform;
     }
-
+   
     void Update()
     {
         if (pointA == null || pointB == null)
