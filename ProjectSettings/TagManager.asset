@@ -9,6 +9,7 @@ TagManager:
   - Obstacle
   - Goblin
   - GameOverText
+  - Portal
   layers:
   - Default
   - TransparentFX

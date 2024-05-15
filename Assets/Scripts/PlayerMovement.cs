@@ -52,6 +52,10 @@ public class PlayerMovement : MonoBehaviour
         anim = GetComponent<Animator>();
         baseSpeed = speed;
     }
+    public void SetDead()
+    {
+        anim.SetBool("isDead", true); // Nastavení proměnné isDead v animátoru
+    }
 
 
     private void Update()

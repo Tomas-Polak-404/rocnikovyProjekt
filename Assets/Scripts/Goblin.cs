@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Goblin : MonoBehaviour
 {
@@ -7,22 +8,49 @@ public class Goblin : MonoBehaviour
     private Animator anim;
     private EnemyPatrol enemyPatrol;
     public int damage = 5;
-    public float attackRange = 5f;
+    public float attackRange = 1.5f;
     public bool isAttacking = false;
 
-    private bool isDead;
+    private bool isDead = false;
     private bool canAttack = true;
     private Transform player;
     private bool playerInRange = false;
 
     public GameObject gameOverScreen;
+    private PlayerMovement playerMovement;
+    private Rigidbody2D rb;
+
+
+
+
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
+        playerMovement = FindObjectOfType<PlayerMovement>();
         anim = GetComponent<Animator>();
         enemyPatrol = GetComponent<EnemyPatrol>();
         enemyPatrol.speed = 3f; // Set initial speed here
     }
+
+    private void FixedUpdate()
+    {
+        if (player != null && !isDead && isAttacking)
+        {
+            // Zjistíme směr pohybu hráče
+            Vector2 direction = (player.position - transform.position).normalized;
+
+            // Zjistíme, zda je hráč ve směru pohybu goblina
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, attackRange, LayerMask.GetMask("Player"));
+
+            // Pokud hráč koliduje s goblinem, zastavíme pohyb goblina
+            if (hit.collider != null && hit.collider.CompareTag("Player"))
+            {
+                rb.velocity = Vector2.zero;
+            }
+        }
+    }
+
 
     private void Update()
     {
@@ -53,7 +81,10 @@ public class Goblin : MonoBehaviour
                 playerInRange = false;
             }
         }
+        // Po celou dobu útoku udržujte polohu goblina na stejné výšce nad povrchem
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
+
 
     private IEnumerator AttackPlayer()
     {
@@ -61,13 +92,16 @@ public class Goblin : MonoBehaviour
         isAttacking = true;
         while (isAttacking)
         {
-            if (player != null)
+            if (player != null && !isDead)
             {
                 Player playerComponent = player.GetComponent<Player>();
                 if (playerComponent != null)
                 {
                     if (playerComponent.hp <= 0)
                     {
+                        isDead = true;
+                        playerMovement.SetDead();
+                        yield return new WaitForSeconds(1.0f); // Wait for 1 second
                         gameOverScreen.SetActive(true);
                         isAttacking = false;
                     }
@@ -78,7 +112,7 @@ public class Goblin : MonoBehaviour
                     }
                 }
             }
-            yield return new WaitForSeconds(0.667f);
+            yield return new WaitForSeconds(0.667f); // počkat čas délky animace útoku goblina
 
         }
 
@@ -92,11 +126,19 @@ public class Goblin : MonoBehaviour
         enemyPatrol.speed = 3f;
     }
 
+
+
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
+            //rb.isKinematic = true;
             player = other.transform;
+            if (playerInRange)
+            {
+                anim.SetBool("isAttacking", true); // Enable "isAttacking" animation
+            }
         }
     }
 
@@ -105,11 +147,13 @@ public class Goblin : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             player = null;
-            if (playerInRange)
+            if (!playerInRange)
             {
-                StartCoroutine(ResumePatrolAfterDelay()); // Start the wait coroutine here
+                //rb.isKinematic = false;
                 anim.SetBool("isAttacking", false); // Disable "isAttacking" animation
             }
         }
     }
+
+
 }
