@@ -10,6 +10,8 @@ TagManager:
   - Goblin
   - GameOverText
   - Portal
+  - Gem
+  - Void
   layers:
   - Default
   - TransparentFX
@@ -18,7 +20,7 @@ TagManager:
   - Water
   - UI
   - Player
-  - 
+  - Goblin
   - 
   - 
   - 
