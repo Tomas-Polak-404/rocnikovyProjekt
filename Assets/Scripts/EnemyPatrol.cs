@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemyPatrol : MonoBehaviour
@@ -8,6 +9,8 @@ public class EnemyPatrol : MonoBehaviour
 
     private Transform target;
     private SpriteRenderer spriteRenderer;
+
+    private bool isDead = false; // Přidáme proměnnou pro sledování, zda je goblin mrtvý
 
     void Start()
     {
@@ -23,21 +26,25 @@ public class EnemyPatrol : MonoBehaviour
             return;
         }
 
-        if (Vector2.Distance(transform.position, target.position) < 1)
+        // Přidáme podmínku, která zastaví pohyb goblina, pokud je mrtvý
+        if (!isDead)
         {
-            ChangeTarget();
-        }
+            if (Vector2.Distance(transform.position, target.position) < 1)
+            {
+                ChangeTarget();
+            }
 
-        transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
 
-        // Otáčení sprite podle směru pohybu
-        if (transform.position.x < target.position.x)
-        {
-            spriteRenderer.flipX = false; // Normální směr
-        }
-        else
-        {
-            spriteRenderer.flipX = true; // Zrcadlový směr
+            // Otáčení sprite podle směru pohybu
+            if (transform.position.x < target.position.x)
+            {
+                spriteRenderer.flipX = false; // Normální směr
+            }
+            else
+            {
+                spriteRenderer.flipX = true; // Zrcadlový směr
+            }
         }
     }
 
@@ -52,4 +59,13 @@ public class EnemyPatrol : MonoBehaviour
             target = pointA.transform;
         }
     }
+
+    // Metoda, která nastaví stav goblina na mrtvý
+    public void SetDead()
+    {
+        isDead = true;
+        // Zastavit pohyb goblina
+        speed = 0f;
+    }
+
 }
