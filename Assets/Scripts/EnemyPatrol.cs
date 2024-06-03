@@ -66,6 +66,7 @@ public class EnemyPatrol : MonoBehaviour
         isDead = true;
         // Zastavit pohyb goblina
         speed = 0f;
+
     }
 
 }

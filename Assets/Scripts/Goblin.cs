@@ -6,8 +6,8 @@ public class Goblin : MonoBehaviour
     public GameManagerScript gameManager;
     private Animator anim;
     private EnemyPatrol enemyPatrol;
-    public int damage = 5;
-    public float attackRange = 1.5f;
+    public int damage = 25;
+    public float attackRange = 2f;
     public bool isAttacking = false;
 
     private bool isDead = false;
@@ -53,16 +53,24 @@ public class Goblin : MonoBehaviour
     }
 
     public void TakeDamage(float damageAmount)
+{
+    if (player != null)
     {
-        GoblinHealth -= damageAmount;
-        Debug.Log("Goblin takes damage: " + damageAmount + ", Current Health: " + GoblinHealth);
-        healthBar.UpdateHealthBar(GoblinHealth, MaxGoblinHealth);
-
-        if (GoblinHealth <= 0)
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+        if (distanceToPlayer <= attackRange)
         {
-            Die();
+            GoblinHealth -= damageAmount;
+            Debug.Log("Goblin takes damage: " + damageAmount + ", Current Health: " + GoblinHealth);
+            healthBar.UpdateHealthBar(GoblinHealth, MaxGoblinHealth);
+
+            if (GoblinHealth <= 0)
+            {
+                Die();
+            }
         }
     }
+}
+
     public void SetDead()
     {
         isGoblinDead = true;
@@ -96,7 +104,9 @@ public class Goblin : MonoBehaviour
                     enemyPatrol.speed = 0f;
                     if (canAttack)
                     {
+                        
                         StartCoroutine(AttackPlayer());
+                        
                     }
                 }
                 playerInRange = true;
@@ -138,7 +148,7 @@ public class Goblin : MonoBehaviour
                     }
                     else
                     {
-                        playerComponent.TakeDamage(damage);
+                        if (isGoblinDead == false ) { playerComponent.TakeDamage(damage); }
                         Debug.Log("Hráč má " + playerComponent.hp + " HP.");
                     }
                 }
