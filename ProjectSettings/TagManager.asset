@@ -12,6 +12,12 @@ TagManager:
   - Portal
   - Gem
   - Void
+  - Traps
+  - Bar
+  - MainMenuButtons
+  - SettingsPanel
+  - MainMenuPanel
+  - SoundTrack
   layers:
   - Default
   - TransparentFX

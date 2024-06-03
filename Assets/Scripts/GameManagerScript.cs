@@ -19,7 +19,7 @@ public class GameManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(gameOverUI.activeInHierarchy)
+        if (gameOverUI.activeInHierarchy)
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
@@ -49,7 +49,13 @@ public class GameManagerScript : MonoBehaviour
         #if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
         #else
-                        Application.Quit();
+                                Application.Quit();
         #endif
     }
+
+
+
+
+
+
 }

@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
+
 
 public class Player : MonoBehaviour
 {
@@ -13,9 +15,17 @@ public class Player : MonoBehaviour
     private int totalGems = 3; // Celkový počet drahokamů
 
     public GameObject gameOverScreen; // Reference na Game Over obrazovku
+    private PlayerMovement playerMovement;
+    private Animator anim;
+
+
+
+    private bool isTakingDamage = false;
+
 
     private void Start()
     {
+        anim = GetComponent<Animator>();
         maxHealth = hp;
     }
 
@@ -53,7 +63,39 @@ public class Player : MonoBehaviour
 
             // Deaktivace pohybu hráče
             GetComponent<PlayerMovement>().enabled = false;
+            DestroyWithTag("Bar");
+
         }
+
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Traps") && !isTakingDamage)
+        {
+            StartCoroutine(TakeDamageCoroutine());
+        }
+    }
+    private IEnumerator TakeDamageCoroutine()
+    {
+        isTakingDamage = true;
+        TakeDamage(25);
+        yield return new WaitForSeconds(1.0f);
+        isTakingDamage = false;
+    }
+    public void GameOver()
+    {
+        hp = 0; // Zajišťuje, že hráč nemůže mít méně než 0 HP
+
+        anim.SetBool("isPlayerDead", true);
+        // Zastavení veškerého pohybu hráče
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        rb.velocity = Vector2.zero;
+        rb.angularVelocity = 0f;
+        GetComponent<PlayerMovement>().enabled = false;
+        // Zobrazení Game Over obrazovky
+        gameOverScreen.SetActive(true);
+        DestroyWithTag("Bar");
     }
 
 
@@ -69,13 +111,19 @@ public class Player : MonoBehaviour
         hp -= damage; // Odečtení poškození od zdraví hráče
         if (hp <= 0)
         {
-            hp = 0; // Zajišťuje, že hráč nemůže mít méně než 0 HP
-
-            // Zastavení veškerého pohybu hráče
-            Rigidbody2D rb = GetComponent<Rigidbody2D>();
-            rb.velocity = Vector2.zero;
-            rb.angularVelocity = 0f;
-            GetComponent<PlayerMovement>().enabled = false;
+            GameOver();
         }
     }
+    void DestroyWithTag(string destroyTag)
+    {
+        GameObject[] destroyObject;
+        destroyObject = GameObject.FindGameObjectsWithTag(destroyTag);
+        foreach (GameObject oneObject in destroyObject)
+            Destroy(oneObject);
+    }
 }
+
+
+
+
+

@@ -168,17 +168,17 @@
  </tile>
  <tile id="251">
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="6.04348" width="16" height="9.95652"/>
+   <object id="2" x="0" y="10.9744" width="16" height="5.02563"/>
   </objectgroup>
  </tile>
  <tile id="282">
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="5.08696" width="16" height="10.913"/>
+   <object id="1" x="0" y="10.9253" width="16" height="5.07473"/>
   </objectgroup>
  </tile>
  <tile id="283">
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="5.08696" width="16" height="10.913"/>
+   <object id="1" x="0" y="10.9498" width="16" height="5.05018"/>
   </objectgroup>
  </tile>
 </tileset>
