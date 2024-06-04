@@ -4,14 +4,16 @@ using UnityEngine.SceneManagement;
 
 public class ButtonsFces : MonoBehaviour
 {
+    /*
     public void SwitchToGameScene()
     {
-        SceneManager.LoadScene("MainScene"); 
+        SceneManager.LoadScene("LoadingScreen", LoadSceneMode.Single);
     }
+    */
     public GameObject mainMenuPanel;  // Reference na hlavní panel
     public GameObject settingsPanel;  // Reference na panel s nastavením
 
-    public static bool muteMusic = false; // Statická promìnná pro uchování stavu zvuku
+    public static bool muteMusic = true; // Statická promìnná pro uchování stavu zvuku
 
 
     public void Setting()

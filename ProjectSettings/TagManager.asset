@@ -18,6 +18,7 @@ TagManager:
   - SettingsPanel
   - MainMenuPanel
   - SoundTrack
+  - PauseScreen
   layers:
   - Default
   - TransparentFX
