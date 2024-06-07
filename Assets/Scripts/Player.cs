@@ -40,7 +40,8 @@ public class Player : MonoBehaviour
         if (other.CompareTag("Portal") && gemCount >= totalGems)
         {
             // Spustíme přechod na scénu "lvl2v2"
-            SceneManager.LoadScene("lvl2v2");
+            LoadNextLevel();
+            //SceneManager.LoadScene("lvl2v2");
         }
 
         // Zkontrolujeme, zda se hráč dotkl objektu s tagem "Gem"
@@ -48,6 +49,14 @@ public class Player : MonoBehaviour
         {
             gemCount++;
             UpdateGemBar();
+            other.gameObject.SetActive(false);
+            //Destroy(other.gameObject); // Znič drahokam
+        }
+        if (other.CompareTag("Heal"))
+        {
+            Debug.Log("heal +25");
+            hp += 25;
+            healthBar.fillAmount += 25;
             Destroy(other.gameObject); // Znič drahokam
         }
 
@@ -121,6 +130,38 @@ public class Player : MonoBehaviour
         foreach (GameObject oneObject in destroyObject)
             Destroy(oneObject);
     }
+
+
+
+
+
+
+    public Animator transition;
+
+    public float transitionTime = 1f;
+
+    public void LoadNextLevel()
+    {
+        StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex + 1));
+    }
+
+    IEnumerator LoadLevel(int levelIndex)
+    {
+        transition.SetTrigger("start");
+        yield return new WaitForSeconds(transitionTime);
+        SceneManager.LoadScene(levelIndex);
+    }
+
+
+
+
+
+
+
+
+
+
+
 }
 
 

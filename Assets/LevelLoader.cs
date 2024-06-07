@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour
 {
+    public void Start()
+    {
+        Debug.Log("Main menu spuštìno");
+    }
 
     public Animator transition;
 

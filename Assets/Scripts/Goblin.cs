@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class Goblin : MonoBehaviour
@@ -18,10 +19,12 @@ public class Goblin : MonoBehaviour
     public GameObject gameOverScreen;
     private PlayerMovement playerMovement;
     private Rigidbody2D rb;
+    public GameObject diamond;
 
     private float GoblinHealth = 100f; // Inicializace zdraví goblina na 100
     private float MaxGoblinHealth = 100f; // Max zdraví goblina na 100
     private bool isGoblinDead = false;
+    public GameObject healthBarFill; // Reference to the health bar of this enemy
 
     [SerializeField] FloatingHealthBar healthBar;
 
@@ -81,14 +84,17 @@ public class Goblin : MonoBehaviour
             enemyPatrol.SetDead();
         }
     }
+    
     private void Die()
     {
+        diamond.SetActive(true);
+        Destroy(healthBarFill);
         isGoblinDead = true;
         enemyPatrol.SetDead();
         Debug.Log("Goblin died");
         anim.SetBool("isGoblinDead", true);
         // Můžete zde přidat další logiku pro smrt goblina, jako je zničení objektu po určité době
-        Destroy(gameObject, 5f); // Zničit goblina po 2 sekundách
+        Destroy(gameObject, 0.75f); // Zničit goblina po 2 sekundách
     }
 
     private void Update()

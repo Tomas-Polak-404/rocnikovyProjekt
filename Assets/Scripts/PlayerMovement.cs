@@ -1,15 +1,3 @@
-/*
---------------------------Ročníková práce - Tomáš Polák---------------------
-
-
-TODO: foreground, enemies, UI, lights, levels, žebřík,...
-    
-TODO: celkově upravit kód
-
-
-
-*/
-
 
 
 using UnityEngine;
@@ -25,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isUnderObstacle = false;
 
     public Goblin goblin; // Reference na instanci třídy Goblin
+    public Goblin musch;
 
     [SerializeField] private Rigidbody2D rb;
     private Animator anim;
@@ -67,6 +56,10 @@ public class PlayerMovement : MonoBehaviour
         if (goblin != null)
         {
             goblin.TakeDamage(25);
+        }
+        else if(musch != null)
+        {
+            musch.TakeDamage(25);
         }
         else
         {

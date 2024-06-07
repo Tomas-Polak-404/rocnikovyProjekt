@@ -1,7 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static System.TimeZoneInfo;
 
 public class GameManagerScript : MonoBehaviour
 {
@@ -16,11 +16,23 @@ public class GameManagerScript : MonoBehaviour
     public static bool muteMusic; // Statická promìnná pro uchování stavu zvuku
 
 
+    public void nextLVL()
+    {
+        SceneManager.LoadScene("LoadingScreen", LoadSceneMode.Single);
+
+    }
+
 
     // Start is called before the first frame update
     void Start()
     {
-        Continue();
+        Time.timeScale = 1;
+
+        // Deaktivace panelu PauseScreen
+        //pauseScreen.SetActive(false);
+
+        // Nastavení promìnné isPaused na false
+        isPaused = false;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -30,13 +42,14 @@ public class GameManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Cursor.visible = allowCursor; // Povolení kurzoru po obnovení hry
+        //Cursor.visible = allowCursor; // Povolení kurzoru po obnovení hry
         // Kontrola stisku klávesy P
         if (Input.GetButtonUp("Pause"))
         {
             // Pokud je hra pozastavena, obnovte ji
             if (isPaused)
             {
+                Continue();
                 Time.timeScale = 1;
                 allowCursor = false;
                 pauseScreen.SetActive(false);
@@ -78,13 +91,15 @@ public class GameManagerScript : MonoBehaviour
 
     public void MainMenu()
     {
-        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+        SceneManager.LoadScene("MainMenu"); 
     }
+
     public void Settings()
     {
         // Deaktivuj hlavní panel pokud existuje
         if (pauseScreen != null)
         {
+            BackPauseScreen();
             pauseScreen.SetActive(false);
         }
         else
@@ -148,6 +163,8 @@ public class GameManagerScript : MonoBehaviour
 
     public void Continue()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         // Nastavení èasového mìøítka na normální
         Time.timeScale = 1;
 

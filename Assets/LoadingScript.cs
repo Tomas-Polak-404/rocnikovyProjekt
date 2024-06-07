@@ -5,9 +5,12 @@ using UnityEngine.UI;
 
 public class LoadingScript : MonoBehaviour
 {
+    private LevelLoader nextlvl;
     public void PlayGame()
     {
-        SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
+        nextlvl = GetComponent<LevelLoader>();
+        nextlvl.LoadNextLevel();
+        //SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
     }
 
 

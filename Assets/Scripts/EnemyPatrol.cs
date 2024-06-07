@@ -5,7 +5,7 @@ public class EnemyPatrol : MonoBehaviour
 {
     public GameObject pointA;
     public GameObject pointB;
-    public float speed = 3f;
+    public float speed = 5f;
 
     private Transform target;
     private SpriteRenderer spriteRenderer;
